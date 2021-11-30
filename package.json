@@ -1,0 +1,19 @@
+{
+  "name": "advent2021",
+  "version": "1.0.0",
+  "description": "Advent of code for 2021",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/day1.js",
+    "day1": "tsc && node dist/day1.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jens",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.11",
+    "tslint": "^6.1.3",
+    "typescript": "^4.5.2"
+  }
+}
