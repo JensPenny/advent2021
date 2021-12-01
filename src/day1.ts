@@ -1,93 +1,63 @@
+import { read } from "fs";
 import { FileReader } from "./tools/filereader";
 
 let reader = new FileReader();
 
-let testdata = `1721
-979
-366
-299
-675
-1456`;
+let testdata = `199
+200
+208
+210
+200
+207
+240
+269
+260
+263
+`;
 
-let test = findPair(testdata, 2020);
-console.log(test);
 
-//Day 1 A
-reader
+let values = reader.asStringList(testdata, "\n").map((entry) => Number(entry));
+let test = countIncrements(values)
+console.log('test 1A: ' + test);
+
+const input = reader
   .read("./res/day1")
-  .then((data) => findPair(data, 2020))
-  .then((tuple) => {
-    let value = tuple[0] * tuple[1];
-    console.log('day 1 A: ' + value);
-  })
-  .catch((err) => console.error(err))
+  .then((data) => reader.asStringList(data, "\n").map((entry) => Number(entry)));
+//Day 1 A
+
+input
+  .then((input) => countIncrements(input))
+  .then((result) => console.log('Day 1A: ' + result))
+  .catch((err) => console.error(err));
+
+let testB = countIncrements(mapToSlidingSums(values));
+console.log('test 1B: ' + testB);
 
 //Day 1 B
-reader
-  .read("./res/day1")
-  .then((data) => findTriple(data))
-  .then((tuple) => {
-    let value = tuple[0] * tuple[1] * tuple[2];
-    console.log('day 1 B: ' + value);
-  })
-  .catch((err) => console.error(err))
-
+input
+  .then((input) => mapToSlidingSums(input))
+  .then((input) => countIncrements(input))
+  .then((result) => console.log('Day 1B: ' + result))
+  .catch((err) => console.error(err));
 
 //Actual code, don't judge
-export function findPair(data: string, tosearch: number): [number, number] {
-  let values = reader.asStringList(data, "\n")
-    .map((entry) => Number(entry));
-
-  let largestFirst = Array.from(values.sort((l, r) => r - l));
-  let smallestFirst = Array.from(values.sort((l, r) => l - r));
-
-
-  let tuple: [number, number]
-  tuple = [0, 0]
-  for (let largest of largestFirst) {
-    if (tuple[0] !== 0) {
-      break;
+export function countIncrements(data: number[]): number {
+  let incremented = 0;
+  data.reduce((prev, current) => {
+    if (current > prev) {
+      incremented++;
     }
-
-    for (let smallest of smallestFirst) {
-      if (largest + smallest === tosearch) {
-        tuple = [smallest, largest]
-        break;
-      }
-      if (largest + smallest > tosearch) {
-        break;
-      }
-    }
-  }
-
-  return tuple;
+    return current
+  })
+  return incremented;
 }
 
-function findTriple(data: string): [number, number, number] {
-  let values = reader.asStringList(data, "\n")
-    .map((entry) => Number(entry));
+export function mapToSlidingSums(data: number[]): number[] {
+  let slidingSums: number[] = [];
 
-  let smallestFirst = Array.from(values.sort((l, r) => l - r));
-
-  let tuple: [number, number, number]
-  tuple = [0, 0, 0]
-  for (let small1 of smallestFirst) {
-    if (tuple[0] !== 0) {
-      break;
-    }
-    for (let small2 of smallestFirst) {
-      for (let small3 of smallestFirst) {
-        if (small1 + small2 + small3 === 2020) {
-          tuple = [small1, small2, small3]
-          break;
-        }
-        if (small1 + small2 + small3 > 2020) {
-          break;
-        }
-      }
-    }
+  for (let index = 2; index < data.length; index++) {
+      slidingSums.push(data[index] + data[index - 1] + data[index - 2]) 
   }
 
-  return tuple;
-
+  return slidingSums;
 }

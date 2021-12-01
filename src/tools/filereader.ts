@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 export class FileReader {
-    read(location: string): Promise < any > {
+    read(location: string): Promise < string > {
         return new Promise((resolve, reject) => {
             fs.readFile(location, 'utf8', (err, data) => {
                 if (err) {
