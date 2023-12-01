@@ -12,6 +12,7 @@
     "day5": "tsc && node dist/day5.js",
     "day6": "tsc && node dist/day6.js",
     "day7": "tsc && node dist/day7.js",
+    "day8": "tsc && node dist/day8.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
